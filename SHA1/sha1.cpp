@@ -17,3 +17,12 @@ std::string SHA1(const std::string& message){
     unsigned int f;
     unsigned int W[80];
 
+    unsigned int message_length = message.length() * 8;
+    
+    std::string imessage = message + static_cast<char>(0x80);
+    
+    while((imessage.length() * 8) % 512 != 448){
+        imessage += static_cast<char>(0x00);
+    }
+    
+    imessage += std::string(reinterpret_cast<char*>(&message_length), sizeof(message_length));
