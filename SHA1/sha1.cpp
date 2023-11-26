@@ -65,4 +65,24 @@ std::string SHA1(const std::string& message){
             b = a;
             a = temp;
         }
+        H0 += a;
+        H1 += b;
+        H2 += c;
+        H3 += d;
+        H4 += e;
     }
+
+    char all[41];  
+    std::sprintf(all, "%08x%08x%08x%08x%08x", H0, H1, H2, H3, H4);
+	
+    return std::string(all);
+}
+
+int main() {
+    std::string message = "abcd";
+    std::string Hash = SHA1(message);
+
+    std::cout << "SHA-1 hash: " << Hash << "\n";
+
+    return 0;
+}
