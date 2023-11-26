@@ -36,4 +36,33 @@ std::string SHA1(const std::string& message){
         for (t = 16; t < 80; t++){
             W[t] = left_rol(W[t - 3] ^ W[t - 8] ^ W[t - 14] ^ W[t - 16], 1);
         }
+	    
+	unsigned int a = H0;
+        unsigned int b = H1;
+        unsigned int c = H2;
+        unsigned int d = H3;
+        unsigned int e = H4;
+
+        for (t = 0; t < 80; t++){
+            if (t == 0 || t < 20){
+                K = 0x5a827999;
+                f = (b & c) | ((~b) & d);
+            } else if (t < 40){
+                K = 0x6ed9eba1;
+                f = b ^ c ^ d;
+            } else if (t < 60){
+                K = 0x8f1bbcdc;
+                f = (b & c) | (b & d) | (c & d);
+            } else {
+                K = 0xca62c1d6;
+                f = b ^ c ^ d;
+            }
+
+            unsigned int temp = left_rol(a, 5) + f + e + W[t] + K;
+            e = d;
+            d = c;
+            c = left_rol(b, 30);
+            b = a;
+            a = temp;
+        }
     }
